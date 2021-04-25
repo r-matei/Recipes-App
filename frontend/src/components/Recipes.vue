@@ -51,12 +51,16 @@ export default {
       },
       recipes: [],
       search: '',
-      selectedRecipe: {}
+      selectedRecipe: ''
     }
   },
   async mounted () {
     this.recipes = (await RecipeService.index()).data
-    this.selectedRecipe = this.recipes[0]
+    if (!localStorage.getItem('selectedRecipe')) {
+      localStorage.setItem('selectedRecipe', JSON.stringify(this.recipes[0]))
+    } else {
+      this.selectedRecipe = JSON.parse(localStorage.getItem('selectedRecipe'))
+    }
   },
   computed: {
     filteredRecipes: function () {
@@ -77,6 +81,11 @@ export default {
   methods: {
     selectRecipe (recipe) {
       this.selectedRecipe = recipe
+    }
+  },
+  watch: {
+    selectedRecipe (newRecipe) {
+      localStorage.setItem('selectedRecipe', JSON.stringify(newRecipe))
     }
   }
 }

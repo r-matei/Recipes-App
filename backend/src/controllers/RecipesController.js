@@ -25,7 +25,7 @@ module.exports = {
     try {
       await Recipe.update(req.body, {
         where: {
-          id: req.params.recipeId
+          id: req.body.id
         }
       })
       res.send(req.body)

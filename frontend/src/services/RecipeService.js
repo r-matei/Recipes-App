@@ -18,6 +18,6 @@ export default {
 
   // request to update a recipe
   put (recipe) {
-    return Api().put(`recipes/${recipe.id}`, recipe)
+    return Api().put('recipes', recipe)
   }
 }

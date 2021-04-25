@@ -1,19 +1,15 @@
 <template>
   <div>
-    <v-toolbar
-      class="ma-0 pa-0"
-      color="rgba(25,32,72,0)"
-      align="center">
-      <v-row justify="center" align="center">
-        <v-toolbar-title class="white--text text-h5 font-weight-bold">{{ recipe.name }}</v-toolbar-title>
-        <v-btn icon>
-          <v-icon color="white">mdi-square-edit-outline</v-icon>
-        </v-btn>
-        <v-btn icon>
-          <v-icon color="white">mdi-trash-can-outline</v-icon>
-        </v-btn>
-      </v-row>
-    </v-toolbar>
+    <edit-recipe v-if="recipeTab" :id="id"/>
+    <v-row class="mt-4 pa-0" justify="center" align="center">
+      <v-text class="white--text text-h5 font-weight-bold">{{ recipe.name }}</v-text>
+      <v-btn icon @click="recipeTab = !recipeTab">
+        <v-icon color="white">mdi-square-edit-outline</v-icon>
+      </v-btn>
+      <v-btn icon @click="remove">
+        <v-icon color="white">mdi-trash-can-outline</v-icon>
+      </v-btn>
+    </v-row>
     <v-row class="ml-10 mt-7">
       <v-col align="start" cols="12">
         <v-text class="white--text text-h6">Ingredients:</v-text>
@@ -39,14 +35,45 @@
 </template>
 
 <script>
+import EditRecipe from './EditRecipe'
+import RecipeService from '../services/RecipeService'
+
 export default {
+  data () {
+    return {
+      recipeTab: false
+    }
+  },
+  components: {
+    EditRecipe
+  },
   props: ['recipe'],
+  mounted () {
+    if (localStorage.getItem('selectedRecipe')) {
+      this.recipe = JSON.parse(localStorage.getItem('selectedRecipe'))
+    }
+  },
   computed: {
+    id: function () {
+      return this.recipe.id
+    },
     ingredientsArray: function () {
       return this.recipe.ingredients.split('#')
     },
     directionsArray: function () {
       return this.recipe.directions.split('#')
+    }
+  },
+  methods: {
+    async remove () {
+      try {
+        await RecipeService.delete(this.recipe.id)
+        this.recipe = null
+        localStorage.setItem('selectedRecipe', JSON.stringify(this.recipe))
+        this.$router.go()
+      } catch (err) {
+        console.log(err)
+      }
     }
   }
 }

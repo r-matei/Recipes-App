@@ -10,6 +10,6 @@ module.exports = (app) => {
   app.delete('/recipes/:recipeId',
     RecipesController.remove)
   
-  app.put('/recipes/:recipeid',
+  app.put('/recipes',
     RecipesController.put)
 }
