@@ -1,6 +1,6 @@
 <template>
   <div>
-    <add-recipe :recipeTab="recipeTab"/>
+    <add-recipe v-if="recipeTab"/>
     <v-toolbar
       class="ma-0 pa-0"
       color="rgba(25,32,72,0.7)"

@@ -75,10 +75,10 @@ export default {
         ingredients: '',
         type: '',
         directions: ''
-      }
+      },
+      recipeTab: true
     }
   },
-  props: ['recipeTab'],
   methods: {
     async addRecipe () {
       try {
