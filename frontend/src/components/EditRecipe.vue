@@ -98,10 +98,15 @@ export default {
         this.recipe.ingredients = this.selectedIngredients.join('#')
         this.error = null
 
-        if (this.recipe.name === null) {
-          this.error = 'Please fill in all the name field.'
+        const areAllFieldsFilledIn = Object
+          .keys(this.recipe)
+          .every(key => !!this.recipe[key])
+
+        if (!areAllFieldsFilledIn) {
+          this.error = 'Please fill in all the required fields.'
           return
         }
+
         await RecipeService.put(this.recipe)
         this.tab = false
         localStorage.setItem('selectedRecipe', JSON.stringify(this.recipe))
@@ -123,5 +128,9 @@ export default {
 
 ::-webkit-scrollbar {
   display: none;
+}
+
+.text-error {
+  color: red;
 }
 </style>
