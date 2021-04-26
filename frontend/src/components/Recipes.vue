@@ -4,7 +4,7 @@
       <v-img
         :src="banner.url"
         :alt="banner.alt"
-        height="30vh"
+        height="25vh"
         gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"></v-img>
         <p class="banner-title">Recipes for all your family</p>
         <div class="search-bar">
