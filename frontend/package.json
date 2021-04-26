@@ -5,11 +5,12 @@
   "description": "A Vue.js project",
   "author": "r-matei <roxana.matei1209@gmail.com>",
   "scripts": {
+    "build-app": "npm install && npm run build",
     "build": "node build/build.js",
     "lint": "eslint --ext .js,.vue src test/unit test/e2e/specs",
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "e2e": "node test/e2e/runner.js",
-    "start": "npm run dev",
+    "start": "HOST='0.0.0.0' PORT=80 npm run dev",
     "test": "npm run unit && npm run e2e",
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run"
   },
