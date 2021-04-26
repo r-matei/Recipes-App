@@ -14,6 +14,17 @@
             solo
           ></v-text-field>
         </div>
+        <v-btn
+          v-for="category in categories"
+          :key="category"
+          class="mx-4 style-btn"
+          depressed
+          rounded
+          height="100px"
+          width="100px"
+          v-text="category"
+          @click="selectedCategory = category">
+        </v-btn>
         <v-card
           width="150vh"
           height="45vh"
@@ -51,7 +62,9 @@ export default {
       },
       recipes: [],
       search: '',
-      selectedRecipe: ''
+      selectedRecipe: '',
+      categories: ['Dinner', 'Breakfast', 'Healthy', 'Dessert', 'Pasta', 'None'],
+      selectedCategory: ''
     }
   },
   async mounted () {
@@ -66,12 +79,23 @@ export default {
     filteredRecipes: function () {
       var self = this
       if (self.search !== '') {
-        return this.recipes.filter((recipe) => {
+        return this.categoryRecipes.filter((recipe) => {
           var searchedIngredients = self.search.split(/[ ,]+/)
           for (let i = 0; i < searchedIngredients.length; i++) {
             if (recipe.ingredients.indexOf(searchedIngredients[i].toLowerCase()) === -1) {
               return false
             }
+          }
+          return true
+        })
+      } else return this.categoryRecipes
+    },
+    categoryRecipes: function () {
+      var self = this
+      if (self.selectedCategory !== '' && self.selectedCategory !== 'None') {
+        return this.recipes.filter((recipe) => {
+          if (recipe.category.indexOf(self.selectedCategory) === -1) {
+            return false
           }
           return true
         })
@@ -112,5 +136,15 @@ export default {
 
 ::-webkit-scrollbar {
   display: none;
+}
+
+.style-btn:focus {
+  background-color: rgba(25,32,72,.7);
+  color: white;
+}
+
+.style-btn:hover {
+  background-color: rgba(25,32,72,.7);
+  color: white;
 }
 </style>

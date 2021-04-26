@@ -1,6 +1,6 @@
 <template>
   <div>
-    <edit-recipe v-if="recipeTab" :id="id"/>
+    <edit-recipe v-if="recipeTab"/>
     <v-row class="mt-4 pa-0" justify="center" align="center">
       <v-text class="white--text text-h5 font-weight-bold">{{ recipe.name }}</v-text>
       <v-btn icon @click="recipeTab = !recipeTab">
@@ -20,6 +20,9 @@
           <v-icon color="white">mdi-circle-small</v-icon>
           <v-text class="white--text"> {{ ingredient }}</v-text>
         </div>
+        <br>
+        <v-text class="white--text text-h6">Categories:</v-text>
+        <v-text class="white--text">{{ recipe.category }}</v-text>
         <br>
         <v-text class="white--text text-h6">Directions:</v-text>
         <div
@@ -61,7 +64,7 @@ export default {
       return this.recipe.ingredients.split('#')
     },
     directionsArray: function () {
-      return this.recipe.directions.split('#')
+      return this.recipe.directions.split('\n')
     }
   },
   methods: {
