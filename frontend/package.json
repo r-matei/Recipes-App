@@ -2,6 +2,7 @@
   "name": "frontend",
   "version": "1.0.0",
   "private": true,
+  "proxy": "http://localhost:8081",
   "description": "A Vue.js project",
   "author": "r-matei <roxana.matei1209@gmail.com>",
   "scripts": {
