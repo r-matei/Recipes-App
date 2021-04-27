@@ -1,12 +1,14 @@
 <template>
   <v-row>
     <v-col cols="12" align="center">
+      <!-- top banner -->
       <v-img
         :src="banner.url"
         :alt="banner.alt"
         height="25vh"
         gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"></v-img>
         <p class="banner-title">Recipes for all your family</p>
+        <!-- search bar -->
         <div class="search-bar">
           <v-text-field
             label="Search by ingredients"
@@ -14,6 +16,7 @@
             solo
           ></v-text-field>
         </div>
+        <!-- categories buttons -->
         <v-btn
           v-for="category in categories"
           :key="category"
@@ -25,6 +28,7 @@
           v-text="category"
           @click="selectedCategory = category">
         </v-btn>
+        <!-- card with all the informations about recipes -->
         <v-card
           width="150vh"
           height="45vh"
@@ -60,15 +64,18 @@ export default {
         url: 'https://www.uofmhealth.org/sites/default/files/culinary-medicine.jpg',
         alt: 'Banner'
       },
-      recipes: [],
-      search: '',
-      selectedRecipe: '',
-      categories: ['Dinner', 'Breakfast', 'Healthy', 'Dessert', 'Pasta', 'None'],
-      selectedCategory: ''
+      recipes: [], // all the recipes
+      search: '', // search bar content
+      selectedRecipe: '', // the recipe we show more informations about
+      categories: ['Dinner', 'Breakfast', 'Healthy', 'Dessert', 'Pasta', 'None'], // categories the user can choose
+      selectedCategory: '' // the category choosed by user
     }
   },
   async mounted () {
+    // request all the recipes from database
     this.recipes = (await RecipeService.index()).data
+
+    // if has already been selected a recipe we take it from local storage
     if (!localStorage.getItem('selectedRecipe')) {
       localStorage.setItem('selectedRecipe', JSON.stringify(this.recipes[0]))
     } else {
@@ -76,6 +83,7 @@ export default {
     }
   },
   computed: {
+    // filter recipes by ingredients
     filteredRecipes: function () {
       var self = this
       if (self.search !== '') {
@@ -90,6 +98,8 @@ export default {
         })
       } else return this.categoryRecipes
     },
+
+    // filter recipes by categories
     categoryRecipes: function () {
       var self = this
       if (self.selectedCategory !== '' && self.selectedCategory !== 'None') {
@@ -103,11 +113,13 @@ export default {
     }
   },
   methods: {
+    // mark the recipe that is selected from the recipes list
     selectRecipe (recipe) {
       this.selectedRecipe = recipe
     }
   },
   watch: {
+    // when the selected recipe changes, store it in the local storage
     selectedRecipe (newRecipe) {
       localStorage.setItem('selectedRecipe', JSON.stringify(newRecipe))
     }

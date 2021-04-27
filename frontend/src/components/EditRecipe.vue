@@ -1,4 +1,5 @@
 <template>
+  <!-- the form to edit a recipe -->
   <v-overlay
     :z-index="zIndex"
     :value="tab">
@@ -38,7 +39,7 @@
         <v-combobox
           v-model="selectedIngredients"
           :items="selectedIngredients"
-          label="Edit ingredients"
+          label="Edit ingredients (press enter to add an ingredient)"
           multiple
           chips
           deletable-chips
@@ -49,7 +50,7 @@
         ></v-combobox>
         <v-textarea
           class="px-10"
-          label="Directions"
+          label="Directions (please add one direction per line)"
           v-model="recipe.directions"
           light>
         </v-textarea>
@@ -73,18 +74,17 @@ import RecipeService from '../services/RecipeService'
 export default {
   data () {
     return {
-      recipe: {},
-      recipes: [],
-      categories: ['dinner', 'breakfast', 'healthy', 'dessert', 'pasta'],
-      selectedCategories: [],
-      selectedIngredients: [],
+      recipe: {}, // the recipe we want to edit
+      categories: ['Dinner', 'Breakfast', 'Healthy', 'Dessert', 'Pasta'], // all the categories
+      selectedCategories: [], // the edited recipe categories
+      selectedIngredients: [], // the edited recipe ingredients
       error: null,
       required: (value) => !!value || 'Required.',
       tab: 'true'
     }
   },
   async mounted () {
-    this.recipes = (await RecipeService.index()).data
+    // take from the local storage the selected recipe
     if (localStorage.getItem('selectedRecipe')) {
       this.recipe = JSON.parse(localStorage.getItem('selectedRecipe'))
     }
@@ -94,6 +94,7 @@ export default {
   methods: {
     async updateRecipe () {
       try {
+        // check if all the fields are completed and update the recipe in database
         this.recipe.category = this.selectedCategories.join()
         this.recipe.ingredients = this.selectedIngredients.join('#')
         this.error = null
@@ -109,6 +110,7 @@ export default {
 
         await RecipeService.put(this.recipe)
         this.tab = false
+        // update the local storage selected recipe
         localStorage.setItem('selectedRecipe', JSON.stringify(this.recipe))
         this.$router.go()
       } catch (err) {

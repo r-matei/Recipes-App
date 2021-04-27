@@ -1,6 +1,8 @@
 <template>
   <div>
+    <!-- show the form for a new recipe when the add button is clicked -->
     <add-recipe v-if="recipeTab"/>
+    <!-- toolbar with the list title and add button for a new recipe -->
     <v-toolbar
       class="ma-0 pa-0"
       color="rgba(25,32,72,0.7)"
@@ -12,6 +14,7 @@
         </v-btn>
       </v-row>
     </v-toolbar>
+    <!-- list with all recipes -->
     <v-list height="35vh" dense two-line class="ma-0 pa-0 scrollable">
       <v-list-item-group
         color="rgba(25,32,72,.7)"
@@ -42,14 +45,14 @@ export default {
   },
   data () {
     return {
-      newRecipe: {},
+      newRecipe: {}, // store the new recipe informations
       recipeTab: false
     }
   },
-  props: ['recipes'],
+  props: ['recipes'], // the recipes from Recipes.vue component
   methods: {
     selectRecipe (recipe) {
-      this.$emit('selectedRecipe', recipe)
+      this.$emit('selectedRecipe', recipe) // send to the main component when we select a recipe
     }
   }
 }

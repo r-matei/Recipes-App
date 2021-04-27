@@ -1,6 +1,8 @@
 <template>
   <div>
+    <!-- show the form to edit a recipe when the edit button is clicked -->
     <edit-recipe v-if="recipeTab"/>
+    <!-- show all the informations about the selected recipe -->
     <v-row class="mt-4 pa-0" justify="center" align="center">
       <v-text class="white--text text-h5 font-weight-bold">{{ recipe.name }}</v-text>
       <v-btn icon @click="recipeTab = !recipeTab">
@@ -50,12 +52,7 @@ export default {
   components: {
     EditRecipe
   },
-  props: ['recipe'],
-  mounted () {
-    if (localStorage.getItem('selectedRecipe')) {
-      this.recipe = JSON.parse(localStorage.getItem('selectedRecipe'))
-    }
-  },
+  props: ['recipe'], // the selected recipe from parent component
   computed: {
     id: function () {
       return this.recipe.id
@@ -68,9 +65,11 @@ export default {
     }
   },
   methods: {
+    // remove recipe
     async remove () {
       try {
         await RecipeService.delete(this.recipe.id)
+        // delete the selected recipe from local storage
         this.recipe = null
         localStorage.setItem('selectedRecipe', JSON.stringify(this.recipe))
         this.$router.go()

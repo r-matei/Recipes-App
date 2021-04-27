@@ -20,7 +20,6 @@ export default {
 <style>
 
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;800&display=swap');
-
 #app {
   font-family: proxima-nova, sans-serif;
   -webkit-font-smoothing: antialiased;
