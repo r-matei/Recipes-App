@@ -67,7 +67,7 @@ export default {
       recipes: [], // all the recipes
       search: '', // search bar content
       selectedRecipe: '', // the recipe we show more informations about
-      categories: ['Dinner', 'Breakfast', 'Healthy', 'Dessert', 'Pasta', 'None'], // categories the user can choose
+      categories: ['Dinner', 'Breakfast', 'Healthy', 'Dessert', 'Pasta', 'All'], // categories the user can choose
       selectedCategory: '' // the category choosed by user
     }
   },
@@ -102,7 +102,7 @@ export default {
     // filter recipes by categories
     categoryRecipes: function () {
       var self = this
-      if (self.selectedCategory !== '' && self.selectedCategory !== 'None') {
+      if (self.selectedCategory !== '' && self.selectedCategory !== 'All') {
         return this.recipes.filter((recipe) => {
           if (recipe.category.indexOf(self.selectedCategory) === -1) {
             return false
